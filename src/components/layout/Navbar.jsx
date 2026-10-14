@@ -19,6 +19,7 @@ const Navbar = ({ onOpenQuote }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
+  const dropdownRef = React.useRef(null);
   const location = useLocation();
 
   useEffect(() => {
@@ -32,6 +33,29 @@ const Navbar = ({ onOpenQuote }) => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setServicesDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [mobileMenuOpen]);
 
   useEffect(() => {
     setMobileMenuOpen(false);
@@ -116,30 +140,43 @@ const Navbar = ({ onOpenQuote }) => {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          {/* Brand Logo */}
-          <Link to="/" className="flex items-center space-x-3 group">
-            <div className="relative flex items-center justify-center w-11 h-11 rounded-xl bg-white p-1.5 shadow-lg shadow-emerald-900/30 group-hover:scale-105 transition-transform border border-emerald-100">
-              <img 
-                src="/imgs/aifaa.svg" 
-                alt="Aifa Services LTD Logo" 
-                className="w-full h-full object-contain filter brightness-110 drop-shadow" 
-                onError={(e) => {
-                  e.target.style.display = 'none';
-                  if (e.target.nextSibling) e.target.nextSibling.style.display = 'flex';
-                }}
-              />
-              <span className="hidden items-center justify-center w-full h-full text-white font-black text-base leading-none">AS</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-xl font-bold tracking-tight text-white flex items-center gap-1.5">
-                AIFA <span className="text-emerald-400">SERVICES</span>
-                <span className="text-[10px] uppercase font-semibold bg-emerald-900/70 text-emerald-300 px-1.5 py-0.5 rounded border border-emerald-700/50">LTD</span>
-              </span>
-              <span className="text-[11px] text-emerald-300/80 font-medium tracking-wide">
-                Multi-Sector Solutions • Ghana
-              </span>
-            </div>
-          </Link>
+          
+          {/* Left section: Mobile Hamburger Toggle + Brand Logo */}
+          <div className="flex items-center space-x-3">
+            {/* Mobile Hamburger on Left */}
+            <button
+              onClick={() => setMobileMenuOpen(prev => !prev)}
+              className="lg:hidden p-2 rounded-xl text-slate-200 hover:text-white bg-emerald-950/70 hover:bg-emerald-900 border border-emerald-800/70 focus:outline-none transition-colors"
+              aria-label="Toggle navigation"
+            >
+              <Menu className="w-5 h-5 text-emerald-400" />
+            </button>
+
+            {/* Brand Logo */}
+            <Link to="/" className="flex items-center space-x-2.5 sm:space-x-3 group">
+              <div className="relative flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-white p-1.5 shadow-lg shadow-emerald-900/30 group-hover:scale-105 transition-transform border border-emerald-100">
+                <img 
+                  src="/imgs/aifaa.svg" 
+                  alt="Aifa Services LTD Logo" 
+                  className="w-full h-full object-contain filter brightness-110 drop-shadow" 
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    if (e.target.nextSibling) e.target.nextSibling.style.display = 'flex';
+                  }}
+                />
+                <span className="hidden items-center justify-center w-full h-full text-white font-black text-base leading-none">AS</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-base sm:text-xl font-bold tracking-tight text-white flex items-center gap-1.5">
+                  AIFA <span className="text-emerald-400">SERVICES</span>
+                  <span className="text-[10px] uppercase font-semibold bg-emerald-900/70 text-emerald-300 px-1.5 py-0.5 rounded border border-emerald-700/50">LTD</span>
+                </span>
+                <span className="text-[10px] sm:text-[11px] text-emerald-300/80 font-medium tracking-wide">
+                  Multi-Sector Solutions • Ghana
+                </span>
+              </div>
+            </Link>
+          </div>
 
           {/* Desktop Navigation Links */}
           <div className="hidden lg:flex items-center space-x-1">
@@ -156,16 +193,17 @@ const Navbar = ({ onOpenQuote }) => {
               Home
             </NavLink>
 
-            {/* Services Dropdown */}
-            <div className="relative group" onMouseLeave={() => setServicesDropdownOpen(false)}>
+            {/* Services Dropdown (Click-to-open) */}
+            <div className="relative" ref={dropdownRef}>
               <button 
+                type="button"
                 className={`px-3.5 py-2 text-sm font-medium rounded-lg transition-colors flex items-center space-x-1.5 ${
-                  location.pathname.startsWith('/services')
+                  location.pathname.startsWith('/services') || servicesDropdownOpen
                     ? 'text-emerald-400 bg-emerald-950/60'
                     : 'text-slate-200 hover:text-white hover:bg-emerald-950/30'
                 }`}
-                onClick={() => setServicesDropdownOpen(!servicesDropdownOpen)}
-                onMouseEnter={() => setServicesDropdownOpen(true)}
+                onClick={() => setServicesDropdownOpen(prev => !prev)}
+                aria-expanded={servicesDropdownOpen}
               >
                 <span>Services & Sectors</span>
                 <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${servicesDropdownOpen ? 'rotate-180 text-emerald-400' : ''}`} />
@@ -189,6 +227,7 @@ const Navbar = ({ onOpenQuote }) => {
                       <Link 
                         key={index}
                         to={service.path}
+                        onClick={() => setServicesDropdownOpen(false)}
                         className="flex items-start space-x-3.5 p-2.5 rounded-xl hover:bg-emerald-950/70 border border-transparent hover:border-emerald-700/40 transition-all group/item"
                       >
                         <div className="p-2 rounded-lg bg-emerald-900/40 border border-emerald-700/30 text-emerald-400 group-hover/item:bg-emerald-700 group-hover/item:text-white transition-colors">
@@ -218,7 +257,7 @@ const Navbar = ({ onOpenQuote }) => {
                     onClick={() => { setServicesDropdownOpen(false); onOpenQuote(); }}
                     className="text-emerald-400 font-semibold hover:text-emerald-300 flex items-center gap-1"
                   >
-                    <span>Instant Quote</span>
+                    <span>Instant Proposal</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -265,7 +304,7 @@ const Navbar = ({ onOpenQuote }) => {
             </NavLink>
           </div>
 
-          {/* Action CTAs */}
+          {/* Desktop Right CTAs */}
           <div className="hidden lg:flex items-center space-x-3">
             <a 
               href={`tel:${companyDetails.phone1}`}
@@ -284,57 +323,108 @@ const Navbar = ({ onOpenQuote }) => {
             </button>
           </div>
 
-          {/* Mobile Menu Toggle Button */}
+          {/* Right section for Mobile: Emergency call icon + Quote button */}
           <div className="flex lg:hidden items-center space-x-2">
+            <a
+              href={`tel:${companyDetails.phone1}`}
+              className="p-2 rounded-xl bg-emerald-950/80 text-emerald-400 border border-emerald-800/60 hover:bg-emerald-900 transition-colors"
+              title="Call Emergency Hotline"
+            >
+              <Phone className="w-4 h-4" />
+            </a>
+
             <button 
               onClick={onOpenQuote}
-              className="px-2.5 py-1.5 text-xs font-bold text-white bg-emerald-600 rounded-lg shadow"
+              className="px-3 py-1.5 text-xs font-bold text-white bg-gradient-to-r from-emerald-600 to-green-500 rounded-xl shadow-md active:scale-95 transition-all"
             >
               Quote
             </button>
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg text-slate-300 hover:text-white hover:bg-emerald-950/60 focus:outline-none"
-              aria-label="Toggle navigation"
-            >
-              {mobileMenuOpen ? <X className="w-6 h-6 text-emerald-400" /> : <Menu className="w-6 h-6" />}
-            </button>
           </div>
+
         </div>
       </nav>
 
-      {/* Mobile Drawer Menu */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden bg-[#07130a] border-b border-emerald-900/60 px-4 pt-3 pb-6 space-y-3 shadow-2xl max-h-[85vh] overflow-y-auto">
-          <div className="flex flex-col space-y-1">
+      {/* Mobile Drawer (Drops / Slides in from the LEFT) */}
+      <div 
+        className={`fixed inset-0 z-50 lg:hidden transition-all duration-300 ${
+          mobileMenuOpen ? 'opacity-100 pointer-events-auto visible' : 'opacity-0 pointer-events-none invisible'
+        }`}
+      >
+        {/* Dark Backdrop */}
+        <div 
+          className="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity duration-300"
+          onClick={() => setMobileMenuOpen(false)}
+        />
+
+        {/* Drawer Panel Sliding in from Left */}
+        <div 
+          className={`absolute top-0 bottom-0 left-0 w-[310px] sm:w-[350px] max-w-[85vw] bg-[#07140b] border-r border-emerald-600/50 shadow-2xl flex flex-col justify-between p-5 transform transition-transform duration-300 ease-out z-10 ${
+            mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
+        >
+          {/* Drawer Header */}
+          <div className="flex items-center justify-between pb-4 border-b border-emerald-900/60">
+            <Link to="/" onClick={() => setMobileMenuOpen(false)} className="flex items-center space-x-2.5">
+              <div className="w-9 h-9 rounded-xl bg-white p-1 flex items-center justify-center">
+                <img src="/imgs/aifaa.svg" alt="Aifa Logo" className="w-full h-full object-contain" />
+              </div>
+              <div>
+                <span className="text-base font-black text-white block">AIFA <span className="text-emerald-400">SERVICES</span></span>
+                <span className="text-[10px] text-emerald-300/80 font-mono">Lapaz, Accra • EPA Certified</span>
+              </div>
+            </Link>
+
+            <button
+              onClick={() => setMobileMenuOpen(false)}
+              className="p-1.5 rounded-xl bg-emerald-950 text-slate-300 hover:text-white border border-emerald-800"
+              aria-label="Close menu"
+            >
+              <X className="w-5 h-5 text-emerald-400" />
+            </button>
+          </div>
+
+          {/* Drawer Scrollable Navigation Links */}
+          <div className="flex-1 overflow-y-auto py-4 space-y-2">
             <NavLink 
               to="/" 
+              onClick={() => setMobileMenuOpen(false)}
               className={({ isActive }) => 
-                `px-3 py-2.5 rounded-lg text-sm font-semibold ${
-                  isActive ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'text-slate-200'
+                `flex items-center px-3.5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider ${
+                  isActive ? 'bg-emerald-950 text-emerald-400 border border-emerald-700' : 'text-slate-200 hover:bg-emerald-950/40'
                 }`
               }
             >
               Home
             </NavLink>
 
-            <div className="py-2">
-              <span className="text-xs uppercase font-bold text-emerald-400 px-3 tracking-wider">Our Services</span>
-              <div className="mt-1.5 space-y-1 pl-2">
+            {/* Services Dropdown in Drawer */}
+            <div className="py-2 px-1">
+              <span className="text-[10px] uppercase font-mono font-bold text-emerald-400 tracking-widest block mb-2 px-2.5">
+                Our 4 Core Divisions
+              </span>
+              <div className="space-y-1.5">
                 {serviceLinks.map((service, idx) => {
                   const Icon = service.icon;
                   return (
                     <NavLink
                       key={idx}
                       to={service.path}
+                      onClick={() => setMobileMenuOpen(false)}
                       className={({ isActive }) => 
-                        `flex items-center space-x-2.5 px-3 py-2 rounded-lg text-xs font-medium ${
-                          isActive ? 'bg-emerald-950 text-emerald-400' : 'text-slate-300 hover:bg-emerald-950/40'
+                        `flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-semibold ${
+                          isActive 
+                            ? 'bg-emerald-900/60 text-emerald-300 border border-emerald-600' 
+                            : 'text-slate-300 hover:bg-emerald-950/50 hover:text-white'
                         }`
                       }
                     >
-                      <Icon className="w-4 h-4 text-emerald-400" />
-                      <span>{service.title}</span>
+                      <div className="p-1.5 rounded-lg bg-emerald-950 text-emerald-400 border border-emerald-800 shrink-0">
+                        <Icon className="w-4 h-4" />
+                      </div>
+                      <div className="flex-1 truncate">
+                        <span className="block truncate">{service.title}</span>
+                        <span className="text-[10px] font-mono text-emerald-400 block">{service.badge}</span>
+                      </div>
                     </NavLink>
                   );
                 })}
@@ -343,20 +433,22 @@ const Navbar = ({ onOpenQuote }) => {
 
             <NavLink 
               to="/about" 
+              onClick={() => setMobileMenuOpen(false)}
               className={({ isActive }) => 
-                `px-3 py-2.5 rounded-lg text-sm font-semibold ${
-                  isActive ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'text-slate-200'
+                `flex items-center px-3.5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider ${
+                  isActive ? 'bg-emerald-950 text-emerald-400 border border-emerald-700' : 'text-slate-200 hover:bg-emerald-950/40'
                 }`
               }
             >
-              About Us & Certifications
+              About Us & EPA License
             </NavLink>
 
             <NavLink 
               to="/quote-estimator" 
+              onClick={() => setMobileMenuOpen(false)}
               className={({ isActive }) => 
-                `px-3 py-2.5 rounded-lg text-sm font-semibold ${
-                  isActive ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'text-slate-200'
+                `flex items-center px-3.5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider ${
+                  isActive ? 'bg-emerald-950 text-emerald-400 border border-emerald-700' : 'text-slate-200 hover:bg-emerald-950/40'
                 }`
               }
             >
@@ -365,33 +457,35 @@ const Navbar = ({ onOpenQuote }) => {
 
             <NavLink 
               to="/contact" 
+              onClick={() => setMobileMenuOpen(false)}
               className={({ isActive }) => 
-                `px-3 py-2.5 rounded-lg text-sm font-semibold ${
-                  isActive ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'text-slate-200'
+                `flex items-center px-3.5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider ${
+                  isActive ? 'bg-emerald-950 text-emerald-400 border border-emerald-700' : 'text-slate-200 hover:bg-emerald-950/40'
                 }`
               }
             >
-              Contact & Location (Lapaz)
+              Contact & Headquarters
             </NavLink>
           </div>
 
-          <div className="pt-3 border-t border-emerald-900/50 flex flex-col space-y-2.5">
+          {/* Drawer Footer Actions */}
+          <div className="pt-4 border-t border-emerald-900/60 space-y-2.5">
             <button 
               onClick={() => { setMobileMenuOpen(false); onOpenQuote(); }}
-              className="w-full py-3 text-center text-xs font-bold text-white uppercase tracking-wider rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 shadow-md"
+              className="w-full py-3.5 text-center text-xs font-black text-white uppercase tracking-wider rounded-xl bg-gradient-to-r from-emerald-600 to-green-500 shadow-xl shadow-emerald-950 active:scale-95 transition-all"
             >
               Book Service / Request Quote
             </button>
             <a 
               href={`tel:${companyDetails.phone1}`}
-              className="w-full py-2.5 text-center text-xs font-semibold text-emerald-300 bg-emerald-950 rounded-xl border border-emerald-800/60 flex items-center justify-center space-x-2"
+              className="w-full py-3 text-center text-xs font-bold text-emerald-300 bg-emerald-950/80 rounded-xl border border-emerald-700/50 flex items-center justify-center space-x-2"
             >
               <Phone className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Call: {companyDetails.phoneDisplay1}</span>
+              <span>Hotline: {companyDetails.phoneDisplay1}</span>
             </a>
           </div>
         </div>
-      )}
+      </div>
     </header>
   );
 };

@@ -11,6 +11,7 @@ import {
   Hammer 
 } from 'lucide-react';
 import { constructionProjects, companyDetails } from '../data/siteData';
+import Interactive3DCard from '../components/3d/Interactive3DCard';
 
 const ConstructionPage = ({ onOpenQuote }) => {
   const [selectedFilter, setSelectedFilter] = useState('All');
@@ -174,50 +175,49 @@ const ConstructionPage = ({ onOpenQuote }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {filteredProjects.map((proj) => (
-            <div
-              key={proj.id}
-              className="bg-glass-card rounded-3xl overflow-hidden border border-emerald-800/40 hover:border-emerald-500/60 transition-all duration-300 group flex flex-col justify-between"
-            >
-              <div className="relative h-64 sm:h-72 overflow-hidden bg-slate-900">
-                <img
-                  src={proj.image}
-                  alt={proj.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  onError={(e) => {
-                    e.target.src = "/imgs/banner-img.jpg";
-                  }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-                <div className="absolute top-4 left-4">
-                  <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase bg-emerald-950/90 text-emerald-300 border border-emerald-700">
-                    {proj.category}
-                  </span>
+            <Interactive3DCard key={proj.id} depth={10}>
+              <div className="h-full bg-glass-card rounded-3xl overflow-hidden border border-emerald-800/40 hover:border-emerald-400 transition-all duration-300 group flex flex-col justify-between shadow-xl">
+                <div className="relative h-64 sm:h-72 overflow-hidden bg-slate-900">
+                  <img
+                    src={proj.image}
+                    alt={proj.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    onError={(e) => {
+                      e.target.src = "/imgs/constru 1.jpg";
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                  <div className="absolute top-4 left-4">
+                    <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase bg-emerald-950/90 text-emerald-300 border border-emerald-700">
+                      {proj.category}
+                    </span>
+                  </div>
+                  <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-xs text-white">
+                    <span className="font-semibold">📍 {proj.location}</span>
+                    <span className="font-mono text-emerald-300">Completed {proj.year}</span>
+                  </div>
                 </div>
-                <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-xs text-white">
-                  <span className="font-semibold">📍 {proj.location}</span>
-                  <span className="font-mono text-emerald-300">Completed {proj.year}</span>
+
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-white mb-2 group-hover:text-emerald-300 transition-colors">
+                    {proj.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-4">
+                    {proj.desc}
+                  </p>
+
+                  <div className="pt-3 border-t border-emerald-900/40 flex items-center justify-between">
+                    <span className="text-xs text-emerald-400 font-medium">BS 5385 Verified Finish</span>
+                    <button
+                      onClick={onOpenQuote}
+                      className="px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-500 rounded-xl transition-colors shadow-md"
+                    >
+                      Request Similar Build
+                    </button>
+                  </div>
                 </div>
               </div>
-
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-white mb-2 group-hover:text-emerald-300 transition-colors">
-                  {proj.title}
-                </h3>
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-4">
-                  {proj.desc}
-                </p>
-
-                <div className="pt-3 border-t border-emerald-900/40 flex items-center justify-between">
-                  <span className="text-xs text-emerald-400 font-medium">BS 5385 Verified Finish</span>
-                  <button
-                    onClick={onOpenQuote}
-                    className="px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-500 rounded-xl transition-colors"
-                  >
-                    Request Similar Build
-                  </button>
-                </div>
-              </div>
-            </div>
+            </Interactive3DCard>
           ))}
         </div>
       </section>

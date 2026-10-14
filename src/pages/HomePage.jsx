@@ -10,65 +10,83 @@ import {
   CheckCircle2, 
   Phone, 
   Play, 
-  Pause,
-  Award,
-  Clock,
-  ShieldCheck,
-  Zap,
-  Layers,
-  ChevronRight
+  Award, 
+  Clock, 
+  ShieldCheck, 
+  Zap, 
+  Layers, 
+  ChevronRight,
+  Crosshair,
+  Sparkles,
+  Sliders,
+  AlertTriangle
 } from 'lucide-react';
 import { servicePillars, companyDetails } from '../data/siteData';
 import CertificationsBanner from '../components/common/CertificationsBanner';
 import TestimonialsSection from '../components/common/TestimonialsSection';
 import FAQSection from '../components/common/FAQSection';
+import Interactive3DCard from '../components/3d/Interactive3DCard';
+import Fumigation3DVisualizer from '../components/3d/Fumigation3DVisualizer';
+import PestScannerMatrix from '../components/3d/PestScannerMatrix';
+import BeforeAfterSlider from '../components/3d/BeforeAfterSlider';
 
 const HomePage = ({ onOpenQuote }) => {
   const [activeTab, setActiveTab] = useState(0);
-  const [isVideoPlaying, setIsVideoPlaying] = useState(true);
 
   const heroVideos = [
     {
-      src: "/imgs/man-spraying-insect-spray.mp4",
-      title: "Pest Eradication & Disinfection",
-      sector: "Division 01"
+      src: "/imgs/fumigation.mp4",
+      poster: "/imgs/3d-fumigation-hero.jpg",
+      title: "ULV Fumigation & Pest Eradication",
+      sector: "Division 01 • EPA Certified",
+      tagline: "Eco-Friendly WHO Formulations & 5-Year Termite Defense"
     },
     {
       src: "/imgs/7170781-uhd_4096_2160_25fps.mp4",
-      title: "Industrial Safety Gear & PPE",
-      sector: "Division 02"
+      poster: "/imgs/p0.jpg",
+      title: "Wholesale Industrial PPE & Safety",
+      sector: "Division 02 • Direct Wholesale",
+      tagline: "ANSI/EN Certified Helmets, Boots, Respirators & Harnesses"
     },
     {
       src: "https://assets.mixkit.co/videos/preview/mixkit-cargo-ship-sailing-in-the-ocean-40674-large.mp4",
-      title: "General Procurement & Logistics",
-      sector: "Division 03"
+      poster: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80",
+      title: "Supply of General Goods & Logistics",
+      sector: "Division 03 • Global Freight",
+      tagline: "Ocean FCL/LCL, Air Cargo Express & Nationwide Road Haulage"
     },
     {
       src: "/imgs/bio.mp4",
-      title: "Construction & Tiling Solutions",
-      sector: "Division 04"
+      poster: "/imgs/constru 1.jpg",
+      title: "Precision Construction & Tiling",
+      sector: "Division 04 • British Standards",
+      tagline: "Laser-Calibrated Tiling BS 5385 & Luxury Renovation Fit-Outs"
     }
   ];
 
   return (
     <div className="min-h-screen bg-[#060d09] text-slate-100 overflow-hidden">
+      
       {/* HERO SECTION */}
-      <section className="relative min-h-[90vh] flex items-center justify-center pt-24 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-        {/* Dynamic Video / Background Layer */}
+      <section className="relative min-h-[92vh] flex items-center justify-center pt-24 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        
+        {/* Dynamic 3D Volumetric Video Background */}
         <div className="absolute inset-0 z-0">
           <video
             autoPlay
             muted
             loop
             playsInline
-            className="w-full h-full object-cover opacity-25 filter brightness-90 contrast-125"
-            poster="/imgs/banner-img.jpg"
+            className="w-full h-full object-cover opacity-20 filter brightness-90 contrast-125"
+            poster="/imgs/3d-fumigation-hero.jpg"
           >
-            <source src="/imgs/7170781-uhd_4096_2160_25fps.mp4" type="video/mp4" />
+            <source src="/imgs/fumigation.mp4" type="video/mp4" />
           </video>
-          {/* Gradients to blend smoothly into page */}
+
+          {/* Holographic grid and gradient overlays */}
+          <div className="absolute inset-0 hud-grid opacity-25"></div>
           <div className="absolute inset-0 bg-gradient-to-t from-[#060d09] via-[#060d09]/80 to-[#060d09]/60"></div>
-          <div className="absolute inset-0 bg-radial-at-c from-transparent via-[#060d09]/70 to-[#060d09]"></div>
+          <div className="absolute inset-0 bg-radial-at-c from-transparent via-[#060d09]/75 to-[#060d09]"></div>
         </div>
 
         {/* Hero Content Container */}
@@ -81,19 +99,18 @@ const HomePage = ({ onOpenQuote }) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               className="lg:col-span-7 space-y-6 text-center lg:text-left"
-              data-aos="fade-right"
             >
               
-              {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-950/90 text-emerald-300 border border-emerald-700/60 shadow-lg backdrop-blur-md">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span className="text-xs font-bold uppercase tracking-wider">
-                  Ghana's Licensed Multi-Sector Specialist
+              {/* Status Badge */}
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-950/90 text-emerald-300 border border-emerald-500/50 shadow-xl shadow-emerald-950/80 backdrop-blur-md">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span className="text-xs font-mono font-bold uppercase tracking-wider">
+                  EPA Certified Multi-Sector Specialist • Ghana
                 </span>
               </div>
 
               {/* Main Headline */}
-              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.15]">
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.12]">
                 Protecting Spaces. <br />
                 <span className="text-gradient-brand">Supplying Safety.</span> <br />
                 Building Excellence.
@@ -101,99 +118,109 @@ const HomePage = ({ onOpenQuote }) => {
 
               {/* Description */}
               <p className="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                Aifa Services Limited provides certified, rapid-response <strong className="text-emerald-300 font-semibold">Pest Control & Fumigation</strong>, wholesale <strong className="text-amber-300 font-semibold">Industrial Safety Gear</strong>, reliable <strong className="text-emerald-300 font-semibold">General Goods Logistics</strong>, and British-standard <strong className="text-slate-200 font-semibold">Construction & Tiling</strong> across Accra and nationwide.
+                Aifa Services Limited delivers certified, rapid-response <strong className="text-emerald-300 font-semibold">Pest Control & Scientific Fumigation</strong>, wholesale <strong className="text-amber-300 font-semibold">Industrial Safety Equipment & PPE</strong>, dependable <strong className="text-emerald-300 font-semibold">General Goods Logistics</strong>, and British-standard <strong className="text-slate-200 font-semibold">Construction & Architectural Tiling</strong> across Accra and nationwide.
               </p>
 
               {/* CTAs */}
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
                 <button
                   onClick={onOpenQuote}
-                  className="w-full sm:w-auto px-7 py-4 rounded-xl bg-gradient-to-r from-emerald-600 via-emerald-500 to-emerald-600 hover:from-emerald-500 hover:to-emerald-400 text-white font-extrabold text-xs uppercase tracking-wider shadow-2xl shadow-emerald-950 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-emerald-600 via-emerald-500 to-emerald-600 hover:from-emerald-500 text-white font-black text-xs uppercase tracking-wider shadow-2xl shadow-emerald-950 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
                 >
-                  <span>Request Instant Quote</span>
+                  <span>Request Instant 60s Quote</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
 
                 <a
                   href={`tel:${companyDetails.phone1}`}
-                  className="w-full sm:w-auto px-6 py-4 rounded-xl bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 font-bold text-xs uppercase tracking-wider border border-emerald-700/50 hover:border-emerald-500 transition-all flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto px-7 py-4 rounded-xl bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 font-bold text-xs uppercase tracking-wider border border-emerald-700/50 hover:border-emerald-500 transition-all flex items-center justify-center gap-2"
                 >
                   <Phone className="w-4 h-4 text-emerald-400" />
-                  <span>Emergency: {companyDetails.phoneDisplay1}</span>
+                  <span>24/7 Hotline: {companyDetails.phoneDisplay1}</span>
                 </a>
               </div>
 
               {/* Trust Indicators Pill */}
               <div className="pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-y-2 gap-x-6 text-xs text-slate-400">
-                <span className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                <span className="flex items-center gap-1.5 font-medium">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                   <span>EPA Certified Technicians</span>
                 </span>
-                <span className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                  <span>WHO Eco-Safe Chemicals</span>
+                <span className="flex items-center gap-1.5 font-medium">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>WHO Eco-Safe Formulations</span>
                 </span>
-                <span className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                <span className="flex items-center gap-1.5 font-medium">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                   <span>BS 5385 Tiling Standards</span>
                 </span>
               </div>
             </motion.div>
 
-            {/* Right Interactive Reel Card */}
+            {/* Right Interactive 3D Reel Card */}
             <motion.div 
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.2 }}
               className="lg:col-span-5"
-              data-aos="fade-left"
             >
-              <div className="relative bg-glass-card rounded-3xl p-3 border border-emerald-700/40 shadow-2xl overflow-hidden group">
-                <div className="relative h-80 sm:h-96 rounded-2xl overflow-hidden bg-black">
-                  <video
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    className="w-full h-full object-cover"
-                    src={heroVideos[activeTab].src}
-                    poster="/imgs/about-banner.jpg"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#040e07] via-transparent to-black/30"></div>
+              <Interactive3DCard depth={18} className="w-full">
+                <div className="relative bg-[#05120a] rounded-3xl p-3 sm:p-4 border-2 border-emerald-600/50 shadow-2xl shadow-emerald-950 overflow-hidden group hud-border">
+                  
+                  {/* Video Screen with HUD Reticle */}
+                  <div className="relative h-80 sm:h-96 rounded-2xl overflow-hidden bg-black">
+                    <video
+                      key={heroVideos[activeTab].src}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      className="w-full h-full object-cover brightness-95 contrast-110"
+                      src={heroVideos[activeTab].src}
+                      poster={heroVideos[activeTab].poster}
+                    />
 
-                  <div className="absolute top-4 left-4">
-                    <span className="px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-widest bg-emerald-950/90 text-emerald-300 border border-emerald-700">
-                      {heroVideos[activeTab].sector}
-                    </span>
+                    {/* Scan beam laser effect */}
+                    <div className="scan-beam"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#040e07] via-transparent to-black/40"></div>
+
+                    {/* Top HUD badge */}
+                    <div className="absolute top-4 left-4">
+                      <span className="px-3.5 py-1.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-widest bg-emerald-950/90 text-emerald-300 border border-emerald-600 shadow-md">
+                        {heroVideos[activeTab].sector}
+                      </span>
+                    </div>
+
+                    {/* Bottom Title & Tagline */}
+                    <div className="absolute bottom-4 left-4 right-4 text-left">
+                      <h3 className="text-lg font-black text-white mb-1">
+                        {heroVideos[activeTab].title}
+                      </h3>
+                      <p className="text-xs text-emerald-300 font-medium">
+                        {heroVideos[activeTab].tagline}
+                      </p>
+                    </div>
                   </div>
 
-                  <div className="absolute bottom-4 left-4 right-4 text-left">
-                    <h3 className="text-lg font-bold text-white mb-1">
-                      {heroVideos[activeTab].title}
-                    </h3>
-                    <p className="text-xs text-emerald-300">
-                      Standard-grade execution in Lapaz & Greater Accra.
-                    </p>
+                  {/* Division Switcher Buttons */}
+                  <div className="grid grid-cols-4 gap-2 mt-3 font-mono">
+                    {heroVideos.map((video, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setActiveTab(idx)}
+                        className={`py-2 px-1 rounded-xl text-center text-[10px] font-bold transition-all border ${
+                          activeTab === idx
+                            ? 'bg-gradient-to-r from-emerald-700 to-green-600 text-white border-emerald-400 shadow-lg shadow-emerald-950'
+                            : 'bg-emerald-950/60 text-slate-300 border-emerald-900/60 hover:bg-emerald-900/60'
+                        }`}
+                      >
+                        <span>DIV 0{idx + 1}</span>
+                      </button>
+                    ))}
                   </div>
-                </div>
 
-                {/* Video Switcher Tabs */}
-                <div className="grid grid-cols-4 gap-1.5 mt-3">
-                  {heroVideos.map((video, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setActiveTab(idx)}
-                      className={`p-2 rounded-xl text-center text-[10px] font-bold transition-all ${
-                        activeTab === idx
-                          ? 'bg-emerald-700 text-white shadow-md'
-                          : 'bg-emerald-950/60 text-slate-300 hover:bg-emerald-900/60'
-                      }`}
-                    >
-                      <span>Div 0{idx + 1}</span>
-                    </button>
-                  ))}
                 </div>
-              </div>
+              </Interactive3DCard>
             </motion.div>
 
           </div>
@@ -201,117 +228,128 @@ const HomePage = ({ onOpenQuote }) => {
       </section>
 
       {/* STATS BAR */}
-      <section className="py-8 bg-[#040e07] border-y border-emerald-950" data-aos="fade-up">
+      <section className="py-8 bg-[#040e07] border-y border-emerald-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {companyDetails.stats.map((stat, i) => (
-              <div key={i} className="p-3" data-aos="zoom-in" data-aos-delay={i * 100}>
-                <div className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
-                  <span className="text-gradient-brand">{stat.value}</span>
+              <Interactive3DCard key={i} depth={8}>
+                <div className="p-4 rounded-2xl bg-[#07190e] border border-emerald-800/40 shadow-lg">
+                  <div className="text-3xl sm:text-4xl font-black text-white tracking-tight font-mono">
+                    <span className="text-gradient-brand">{stat.value}</span>
+                  </div>
+                  <div className="text-xs text-slate-400 font-semibold mt-1">
+                    {stat.label}
+                  </div>
                 </div>
-                <div className="text-xs text-slate-400 font-medium mt-1">
-                  {stat.label}
-                </div>
-              </div>
+              </Interactive3DCard>
             ))}
           </div>
         </div>
       </section>
 
+      {/* SHOCKING 3D FUMIGATION VIDEO COMMAND CENTER */}
+      <Fumigation3DVisualizer onOpenQuote={onOpenQuote} />
+
+      {/* 3D HOLOGRAPHIC FOUNDATION PEST SCANNER & PROTOCOL MATRIX */}
+      <PestScannerMatrix onOpenQuote={onOpenQuote} />
+
+      {/* INTERACTIVE BEFORE & AFTER SLIDER */}
+      <BeforeAfterSlider />
+
       {/* CORE 4 DIVISIONS / SERVICE PILLARS */}
-      <section className="py-20 bg-[#061009] relative">
+      <section className="py-24 bg-[#061009] relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16" data-aos="fade-up">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-950 text-emerald-400 border border-emerald-800">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-mono font-bold uppercase tracking-wider bg-emerald-950 text-emerald-400 border border-emerald-800">
               <Layers className="w-3.5 h-3.5 text-emerald-400" />
-              Comprehensive Corporate Capabilities
+              Four Turnkey Pillars of Excellence
             </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white mt-3 tracking-tight">
-              Our Four Core Business Divisions
+            <h2 className="text-3xl sm:text-5xl font-black text-white mt-3 tracking-tight">
+              Our Core Business Divisions
             </h2>
-            <p className="text-sm text-slate-300 mt-3">
+            <p className="text-sm sm:text-base text-slate-300 mt-3">
               Aifa Services LTD provides specialized, turnkey operations engineered for durability, regulatory compliance, and maximum cost efficiency.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {servicePillars.map((pillar, index) => {
-              const isGreen = pillar.color === 'emerald';
+              const previewImg = index === 0 
+                ? "/imgs/about-service-team.jpg" 
+                : (pillar.cardImage || pillar.heroImage);
+
               return (
-                <div 
-                  key={pillar.id}
-                  data-aos="fade-up"
-                  data-aos-delay={index * 150}
-                  className="bg-glass-card rounded-3xl p-6 sm:p-8 border border-emerald-800/30 hover:border-emerald-500/50 transition-all duration-300 flex flex-col justify-between group hover:shadow-2xl hover:shadow-emerald-950/70"
-                >
-                  <div>
-                    {/* Header with badge */}
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="text-xs font-bold uppercase tracking-widest text-emerald-400 bg-emerald-950/80 px-3 py-1 rounded-full border border-emerald-800/60">
-                        Division 0{index + 1}
-                      </span>
-                      <span className="text-xs text-slate-400 font-medium">
-                        Ghana Operations
-                      </span>
-                    </div>
-
-                    <h3 className="text-xl sm:text-2xl font-bold text-white group-hover:text-emerald-300 transition-colors">
-                      {pillar.title}
-                    </h3>
-                    <p className="text-xs font-semibold text-emerald-400 mt-1 mb-3">
-                      {pillar.tagline}
-                    </p>
-
-                    <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-6">
-                      {pillar.summary}
-                    </p>
-
-                    {/* Image / Video Preview */}
-                    <div className="relative h-48 sm:h-56 rounded-2xl overflow-hidden mb-6 bg-slate-900 border border-emerald-900/50">
-                      <img
-                        src={pillar.cardImage || pillar.heroImage}
-                        alt={pillar.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        onError={(e) => {
-                          e.target.src = "/imgs/banner-img.jpg";
-                        }}
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-                      <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-xs text-white">
-                        <span className="font-semibold">Professional Standard</span>
-                        <span className="text-emerald-300 font-mono text-[11px]">EPA / BS Compliant</span>
+                <Interactive3DCard key={pillar.id} depth={12}>
+                  <div className="h-full bg-[#08180e] rounded-3xl p-6 sm:p-8 border border-emerald-700/40 hover:border-emerald-400 transition-all duration-300 flex flex-col justify-between group shadow-xl hover:shadow-2xl hover:shadow-emerald-950/80">
+                    <div>
+                      {/* Header with badge */}
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="text-xs font-mono font-bold uppercase tracking-widest text-emerald-400 bg-emerald-950/80 px-3 py-1 rounded-full border border-emerald-800/60">
+                          Division 0{index + 1}
+                        </span>
+                        <span className="text-xs text-slate-400 font-medium">
+                          Licensed in Ghana
+                        </span>
                       </div>
+
+                      <h3 className="text-xl sm:text-2xl font-black text-white group-hover:text-emerald-300 transition-colors">
+                        {pillar.title}
+                      </h3>
+                      <p className="text-xs font-semibold text-emerald-400 mt-1 mb-3">
+                        {pillar.tagline}
+                      </p>
+
+                      <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-6">
+                        {pillar.summary}
+                      </p>
+
+                      {/* Image Preview */}
+                      <div className="relative h-48 sm:h-56 rounded-2xl overflow-hidden mb-6 bg-slate-900 border border-emerald-800/50">
+                        <img
+                          src={previewImg}
+                          alt={pillar.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-95"
+                          onError={(e) => {
+                            e.target.src = "/imgs/banner-img.jpg";
+                          }}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                        <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-xs text-white">
+                          <span className="font-semibold">Professional Standard</span>
+                          <span className="text-emerald-300 font-mono text-[11px]">EPA / BS Compliant</span>
+                        </div>
+                      </div>
+
+                      {/* Feature Highlights */}
+                      <ul className="space-y-2 mb-6">
+                        {pillar.features.slice(0, 3).map((feat, fIdx) => (
+                          <li key={fIdx} className="flex items-start space-x-2 text-xs text-slate-300">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                            <span>{feat}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
 
-                    {/* Feature Highlights */}
-                    <ul className="space-y-2 mb-6">
-                      {pillar.features.slice(0, 3).map((feat, fIdx) => (
-                        <li key={fIdx} className="flex items-start space-x-2 text-xs text-slate-300">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                          <span>{feat}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                    {/* Actions */}
+                    <div className="pt-4 border-t border-emerald-900/40 flex items-center justify-between">
+                      <Link
+                        to={pillar.route}
+                        className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-400 group-hover:text-emerald-300 transition-colors"
+                      >
+                        <span>Explore Sector Details</span>
+                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                      </Link>
 
-                  {/* Actions */}
-                  <div className="pt-4 border-t border-emerald-900/40 flex items-center justify-between">
-                    <Link
-                      to={pillar.route}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-400 group-hover:text-emerald-300 transition-colors"
-                    >
-                      <span>Explore Sector Details</span>
-                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                    </Link>
-
-                    <button
-                      onClick={onOpenQuote}
-                      className="px-3.5 py-2 text-xs font-bold text-white bg-emerald-950 hover:bg-emerald-700 border border-emerald-700/50 rounded-xl transition-colors"
-                    >
-                      Quote
-                    </button>
+                      <button
+                        onClick={onOpenQuote}
+                        className="px-4 py-2 text-xs font-bold text-white bg-emerald-950 hover:bg-emerald-700 border border-emerald-700/50 rounded-xl transition-colors shadow-md"
+                      >
+                        Request Quote
+                      </button>
+                    </div>
                   </div>
-                </div>
+                </Interactive3DCard>
               );
             })}
           </div>
@@ -319,12 +357,12 @@ const HomePage = ({ onOpenQuote }) => {
       </section>
 
       {/* WHY CHOOSE AIFA SERVICES */}
-      <section className="py-20 bg-[#040e07] relative border-t border-emerald-950">
+      <section className="py-24 bg-[#040e07] relative border-t border-emerald-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
-            <div className="lg:col-span-5 space-y-6" data-aos="fade-right">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-950 text-emerald-400 border border-emerald-800">
+            <div className="lg:col-span-5 space-y-6">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider bg-emerald-950 text-emerald-400 border border-emerald-800">
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
                 The Aifa Difference
               </span>
@@ -368,47 +406,55 @@ const HomePage = ({ onOpenQuote }) => {
               </div>
             </div>
 
-            <div className="lg:col-span-7" data-aos="fade-left">
+            <div className="lg:col-span-7">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="bg-[#091a10] p-6 rounded-2xl border border-emerald-800/40" data-aos="zoom-in" data-aos-delay="100">
-                  <div className="w-10 h-10 rounded-xl bg-emerald-900/60 text-emerald-400 flex items-center justify-center mb-3">
-                    <ShieldAlert className="w-5 h-5" />
+                <Interactive3DCard depth={10}>
+                  <div className="bg-[#091a10] p-6 rounded-2xl border border-emerald-800/40 h-full">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-900/60 text-emerald-400 flex items-center justify-center mb-3">
+                      <ShieldAlert className="w-5 h-5" />
+                    </div>
+                    <h4 className="text-sm font-bold text-white mb-1">Zero Resurgence Guarantee</h4>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Targeted residual treatments and multi-stage lifecycle barrier applications ensure persistent protection against pests.
+                    </p>
                   </div>
-                  <h4 className="text-sm font-bold text-white mb-1">Zero Resurgence Guarantee</h4>
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    Targeted residual treatments and multi-stage lifecycle barrier applications ensure persistent protection against pests.
-                  </p>
-                </div>
+                </Interactive3DCard>
 
-                <div className="bg-[#091a10] p-6 rounded-2xl border border-emerald-800/40" data-aos="zoom-in" data-aos-delay="200">
-                  <div className="w-10 h-10 rounded-xl bg-amber-900/60 text-amber-400 flex items-center justify-center mb-3">
-                    <HardHat className="w-5 h-5" />
+                <Interactive3DCard depth={10}>
+                  <div className="bg-[#091a10] p-6 rounded-2xl border border-emerald-800/40 h-full">
+                    <div className="w-10 h-10 rounded-xl bg-amber-900/60 text-amber-400 flex items-center justify-center mb-3">
+                      <HardHat className="w-5 h-5" />
+                    </div>
+                    <h4 className="text-sm font-bold text-white mb-1">Wholesale Direct Pricing</h4>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Direct bulk supply of industrial PPE, certified helmets, boots, and respirators at manufacturer-tier wholesale pricing.
+                    </p>
                   </div>
-                  <h4 className="text-sm font-bold text-white mb-1">Wholesale Direct Pricing</h4>
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    Direct bulk supply of industrial PPE, certified helmets, boots, and respirators at manufacturer-tier wholesale pricing.
-                  </p>
-                </div>
+                </Interactive3DCard>
 
-                <div className="bg-[#091a10] p-6 rounded-2xl border border-emerald-800/40" data-aos="zoom-in" data-aos-delay="300">
-                  <div className="w-10 h-10 rounded-xl bg-emerald-900/60 text-emerald-400 flex items-center justify-center mb-3">
-                    <Truck className="w-5 h-5" />
+                <Interactive3DCard depth={10}>
+                  <div className="bg-[#091a10] p-6 rounded-2xl border border-emerald-800/40 h-full">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-900/60 text-emerald-400 flex items-center justify-center mb-3">
+                      <Truck className="w-5 h-5" />
+                    </div>
+                    <h4 className="text-sm font-bold text-white mb-1">Nationwide Logistics</h4>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Door-to-door cargo handling, ocean & air clearance, and secure regional transit across all 16 regions of Ghana.
+                    </p>
                   </div>
-                  <h4 className="text-sm font-bold text-white mb-1">Nationwide Logistics</h4>
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    Door-to-door cargo handling, ocean & air clearance, and secure regional transit across all 16 regions of Ghana.
-                  </p>
-                </div>
+                </Interactive3DCard>
 
-                <div className="bg-[#091a10] p-6 rounded-2xl border border-emerald-800/40" data-aos="zoom-in" data-aos-delay="400">
-                  <div className="w-10 h-10 rounded-xl bg-slate-800 text-slate-300 flex items-center justify-center mb-3">
-                    <Building2 className="w-5 h-5" />
+                <Interactive3DCard depth={10}>
+                  <div className="bg-[#091a10] p-6 rounded-2xl border border-emerald-800/40 h-full">
+                    <div className="w-10 h-10 rounded-xl bg-slate-800 text-slate-300 flex items-center justify-center mb-3">
+                      <Building2 className="w-5 h-5" />
+                    </div>
+                    <h4 className="text-sm font-bold text-white mb-1">British Standard Tiling</h4>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Laser-level floor and wall tiling adhering strictly to BS 5385 with complete waterproof tanking membranes.
+                    </p>
                   </div>
-                  <h4 className="text-sm font-bold text-white mb-1">British Standard Tiling</h4>
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    Laser-level floor and wall tiling adhering strictly to BS 5385 with complete waterproof tanking membranes.
-                  </p>
-                </div>
+                </Interactive3DCard>
               </div>
             </div>
 
@@ -426,9 +472,9 @@ const HomePage = ({ onOpenQuote }) => {
       <FAQSection />
 
       {/* BOTTOM CONVERSION CTA */}
-      <section className="py-16 bg-gradient-to-r from-emerald-950 via-[#071d10] to-emerald-950 border-t border-emerald-900/50 text-center" data-aos="zoom-in">
+      <section className="py-20 bg-gradient-to-r from-emerald-950 via-[#071d10] to-emerald-950 border-t border-emerald-900/50 text-center">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
             Consult With Our Experts in Lapaz Today
           </h2>
           <p className="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
@@ -437,16 +483,17 @@ const HomePage = ({ onOpenQuote }) => {
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
             <button
               onClick={onOpenQuote}
-              className="px-8 py-4 bg-gradient-to-r from-emerald-600 to-green-500 hover:from-emerald-500 hover:to-green-400 text-white font-extrabold rounded-xl text-xs uppercase tracking-wider shadow-2xl shadow-emerald-950 flex items-center gap-2"
+              className="px-8 py-4 bg-gradient-to-r from-emerald-600 to-green-500 hover:from-emerald-500 hover:to-green-400 text-white font-black rounded-xl text-xs uppercase tracking-wider shadow-2xl shadow-emerald-950 flex items-center gap-2"
             >
               <span>Request Free Consultation</span>
+              <ArrowRight className="w-4 h-4" />
             </button>
             <a
               href={`tel:${companyDetails.phone1}`}
-              className="px-6 py-4 bg-emerald-950 hover:bg-emerald-900 text-emerald-300 font-bold rounded-xl text-xs uppercase tracking-wider border border-emerald-700/50 flex items-center gap-2"
+              className="px-8 py-4 bg-emerald-950 hover:bg-emerald-900 text-emerald-300 font-bold rounded-xl text-xs uppercase tracking-wider border border-emerald-700/50 flex items-center gap-2"
             >
-              <Phone className="w-4 h-4" />
-              <span>Call: {companyDetails.phoneDisplay1}</span>
+              <Phone className="w-4 h-4 text-emerald-400" />
+              <span>Call Hotline: {companyDetails.phoneDisplay1}</span>
             </a>
           </div>
         </div>

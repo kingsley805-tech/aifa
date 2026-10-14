@@ -13,6 +13,7 @@ import {
   Box 
 } from 'lucide-react';
 import { servicePillars, companyDetails } from '../data/siteData';
+import Interactive3DCard from '../components/3d/Interactive3DCard';
 
 const GeneralGoodsLogisticsPage = ({ onOpenQuote }) => {
   const goodsData = servicePillars.find(p => p.id === 'general-goods');
@@ -124,39 +125,38 @@ const GeneralGoodsLogisticsPage = ({ onOpenQuote }) => {
           {modes.map((mode, idx) => {
             const Icon = mode.icon;
             return (
-              <div
-                key={idx}
-                className="bg-glass-card rounded-3xl p-8 border border-emerald-800/40 hover:border-emerald-500/60 transition-all duration-300 flex flex-col justify-between group"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-12 h-12 rounded-2xl bg-emerald-900/50 border border-emerald-700/50 text-emerald-400 flex items-center justify-center group-hover:bg-emerald-700 group-hover:text-white transition-colors">
-                      <Icon className="w-6 h-6" />
+              <Interactive3DCard key={idx} depth={10}>
+                <div className="h-full bg-glass-card rounded-3xl p-8 border border-emerald-800/40 hover:border-emerald-400 transition-all duration-300 flex flex-col justify-between group shadow-xl">
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="w-12 h-12 rounded-2xl bg-emerald-900/50 border border-emerald-700/50 text-emerald-400 flex items-center justify-center group-hover:bg-emerald-700 group-hover:text-white transition-colors">
+                        <Icon className="w-6 h-6" />
+                      </div>
+                      <span className="text-xs font-mono font-bold text-emerald-300 bg-emerald-950 px-3 py-1 rounded-full border border-emerald-800">
+                        {mode.stats}
+                      </span>
                     </div>
-                    <span className="text-xs font-mono font-bold text-emerald-300 bg-emerald-950 px-3 py-1 rounded-full border border-emerald-800">
-                      {mode.stats}
-                    </span>
+
+                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-emerald-300 transition-colors">
+                      {mode.title}
+                    </h3>
+
+                    <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-6">
+                      {mode.desc}
+                    </p>
                   </div>
 
-                  <h3 className="text-xl font-bold text-white mb-2 group-hover:text-emerald-300 transition-colors">
-                    {mode.title}
-                  </h3>
-
-                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-6">
-                    {mode.desc}
-                  </p>
+                  <div className="pt-4 border-t border-emerald-900/40 flex items-center justify-between">
+                    <span className="text-xs text-slate-400">Ghana Metro & Ports Coverage</span>
+                    <button
+                      onClick={onOpenQuote}
+                      className="px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-500 rounded-xl transition-colors shadow-md"
+                    >
+                      Request Freight Rate
+                    </button>
+                  </div>
                 </div>
-
-                <div className="pt-4 border-t border-emerald-900/40 flex items-center justify-between">
-                  <span className="text-xs text-slate-400">Ghana Metro & Ports Coverage</span>
-                  <button
-                    onClick={onOpenQuote}
-                    className="px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-500 rounded-xl transition-colors"
-                  >
-                    Request Freight Rate
-                  </button>
-                </div>
-              </div>
+              </Interactive3DCard>
             );
           })}
         </div>
